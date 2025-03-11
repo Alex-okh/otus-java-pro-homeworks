@@ -4,7 +4,7 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
 
 plugins {
     id("org.springframework.boot")
-    id("io.spring.dependency-management") version "1.1.7"
+    id("io.spring.dependency-management")
 }
 
 allprojects {
