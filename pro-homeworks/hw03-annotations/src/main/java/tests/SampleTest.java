@@ -10,6 +10,11 @@ public class SampleTest {
         System.out.println("before test");
     }
 
+    @BeforeEach
+    public void setup2() {
+        System.out.println("before test, method 2");
+    }
+
     @Test
     public void firstTestMethod() {
         System.out.println("first test processed");
@@ -28,5 +33,11 @@ public class SampleTest {
     @AfterEach
     public void close() {
         System.out.println("after test");
+    }
+
+    @AfterEach
+    public void close2() {
+        System.out.println("after test, method2");
+
     }
 }

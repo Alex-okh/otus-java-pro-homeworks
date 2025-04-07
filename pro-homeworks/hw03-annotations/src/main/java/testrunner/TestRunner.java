@@ -7,13 +7,15 @@ import annotations.Test;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TestRunner {
     private final Map<String, TestResult> results = new HashMap<>();
-    private Method beforeEach;
-    private Method afterEach;
+    private final List<Method> beforeEachList = new ArrayList<>();
+    private final List<Method> afterEachList = new ArrayList<>();
 
     public static <T> void processTests(Class<T> clazz) {
         TestRunner testRunner = new TestRunner();
@@ -33,10 +35,10 @@ public class TestRunner {
     private void initMethods(Class<?> clazz) {
         for (Method method : clazz.getMethods()) {
             if (method.isAnnotationPresent(BeforeEach.class)) {
-                beforeEach = method;
+                beforeEachList.add(method);
             }
             if (method.isAnnotationPresent(AfterEach.class)) {
-                afterEach = method;
+                afterEachList.add(method);
             }
         }
     }
@@ -52,14 +54,18 @@ public class TestRunner {
     private void runSingleTest(Method method, Class<?> clazz) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         Constructor<?> constructor = clazz.getConstructor();
         var testInstance = constructor.newInstance();
-        beforeEach.invoke(testInstance);
+        for (Method m : beforeEachList) {
+            m.invoke(testInstance);
+        }
         try {
             method.invoke(testInstance);
             results.put(method.getName(), new TestResult(true));
         } catch (Exception ex) {
             results.put(method.getName(), new TestResult(false, ex));
         } finally {
-            afterEach.invoke(testInstance);
+            for (Method m : afterEachList) {
+                m.invoke(testInstance);
+            }
         }
     }
 
