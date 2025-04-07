@@ -1,4 +1,4 @@
-package ru.calculator;
+package calculator;
 
 /*
 -Xms256m
@@ -17,12 +17,12 @@ public class CalcDemo {
     private static final Logger log = LoggerFactory.getLogger(CalcDemo.class);
 
     public static void main(String[] args) {
-        long counter = 500_000_000;
+        long counter = 100_000_000;
         var summator = new ru.calculator.Summator();
         long startTime = System.currentTimeMillis();
 
         for (var idx = 0; idx < counter; idx++) {
-            var data = new ru.calculator.Data(idx);
+            var data = new calculator.Data(idx);
             summator.calc(data);
 
             if (idx % 10_000_000 == 0) {
