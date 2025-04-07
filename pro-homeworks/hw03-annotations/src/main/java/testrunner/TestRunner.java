@@ -54,17 +54,25 @@ public class TestRunner {
     private void runSingleTest(Method method, Class<?> clazz) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         Constructor<?> constructor = clazz.getConstructor();
         var testInstance = constructor.newInstance();
-        for (Method m : beforeEachList) {
-            m.invoke(testInstance);
-        }
+
         try {
+            for (Method m : beforeEachList) {
+                m.invoke(testInstance);
+            }
             method.invoke(testInstance);
             results.put(method.getName(), new TestResult(true));
         } catch (Exception ex) {
             results.put(method.getName(), new TestResult(false, ex));
+            System.out.printf("Test method <%s>failed %n", method.getName());
         } finally {
-            for (Method m : afterEachList) {
-                m.invoke(testInstance);
+            try {
+                for (Method m : afterEachList) {
+                    m.invoke(testInstance);
+                }
+            } catch (Exception ex) {
+                results.remove(method.getName());
+                results.put(method.getName(), new TestResult(false, ex));
+                System.out.printf("Test method <%s>failed on AfterEach %n", method.getName());
             }
         }
     }

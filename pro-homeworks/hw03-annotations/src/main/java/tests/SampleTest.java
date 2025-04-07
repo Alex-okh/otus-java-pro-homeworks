@@ -22,6 +22,7 @@ public class SampleTest {
 
     @Test
     public void secondTestMethod() {
+        System.out.println("second test throwing exception");
         throw new RuntimeException("Something went wrong in test #2");
     }
 
@@ -38,6 +39,7 @@ public class SampleTest {
     @AfterEach
     public void close2() {
         System.out.println("after test, method2");
+
 
     }
 }
