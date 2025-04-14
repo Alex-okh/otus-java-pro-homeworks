@@ -24,3 +24,6 @@ pluginManagement {
 include("hw02-collections")
 include("hw03-annotations")
 include("hw04-heap")
+include("hw05-classloader-autolog")
+include("hw05-autolog-classloader")
+include("hw06-bankomat")
