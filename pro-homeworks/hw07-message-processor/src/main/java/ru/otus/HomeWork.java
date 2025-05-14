@@ -1,6 +1,21 @@
 package ru.otus;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.otus.handler.ComplexProcessor;
+import ru.otus.listener.ListenerPrinterConsole;
+import ru.otus.model.Message;
+import ru.otus.processor.LoggerProcessor;
+import ru.otus.processor.ProcessorConcatFields;
+import ru.otus.processor.ProcessorUpperField10;
+import ru.otus.processor.homework.ExceptionOnEvenSecProcessor;
+import ru.otus.processor.homework.FieldChangeProcessor;
+
+import java.time.LocalTime;
+import java.util.List;
+
 public class HomeWork {
+    private static final Logger logger = LoggerFactory.getLogger(HomeWork.class);
 
     /*
     Реализовать to do:
@@ -20,5 +35,25 @@ public class HomeWork {
           по аналогии с Demo.class
           из элеменов "to do" создать new ComplexProcessor и обработать сообщение
         */
+        var processors = List.of(new ProcessorConcatFields(), new LoggerProcessor(new ProcessorUpperField10()), new FieldChangeProcessor(), new ExceptionOnEvenSecProcessor(LocalTime::now));
+
+        var complexProcessor = new ComplexProcessor(processors, ex -> {});
+        var listenerPrinter = new ListenerPrinterConsole();
+        complexProcessor.addListener(listenerPrinter);
+
+        var message = new Message.Builder(1L)
+                .field1("field1")
+                .field2("field2")
+                .field3("field3")
+                .field6("field6")
+                .field10("field10")
+                .field11("first changing")
+                .field12("second changing")
+                .build();
+
+        var result = complexProcessor.handle(message);
+        logger.info("result:{}", result);
+
+        complexProcessor.removeListener(listenerPrinter);
     }
 }
