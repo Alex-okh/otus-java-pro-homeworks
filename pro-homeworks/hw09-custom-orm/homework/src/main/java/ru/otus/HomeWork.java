@@ -13,6 +13,7 @@ import ru.otus.crm.service.DbServiceClientImpl;
 import ru.otus.crm.service.DbServiceManagerImpl;
 import ru.otus.jdbc.mapper.DataTemplateJdbc;
 import ru.otus.jdbc.mapper.EntityClassMetaData;
+import ru.otus.jdbc.mapper.EntityClassMetaDataImpl;
 import ru.otus.jdbc.mapper.EntitySQLMetaData;
 
 @SuppressWarnings({"java:S125", "java:S1481"})
@@ -23,7 +24,7 @@ public class HomeWork {
 
     private static final Logger log = LoggerFactory.getLogger(HomeWork.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchMethodException {
         // Общая часть
         var dataSource = new DriverManagerDataSource(URL, USER, PASSWORD);
         flywayMigrations(dataSource);
@@ -31,7 +32,7 @@ public class HomeWork {
         var dbExecutor = new DbExecutorImpl();
 
         // Работа с клиентом
-        EntityClassMetaData<Client> entityClassMetaDataClient; // = new EntityClassMetaDataImpl();
+        EntityClassMetaData<Client> entityClassMetaDataClient = new EntityClassMetaDataImpl<>(Client.class);
         EntitySQLMetaData entitySQLMetaDataClient = null; // = new EntitySQLMetaDataImpl(entityClassMetaDataClient);
         var dataTemplateClient = new DataTemplateJdbc<Client>(
                 dbExecutor, entitySQLMetaDataClient); // реализация DataTemplate, универсальная
