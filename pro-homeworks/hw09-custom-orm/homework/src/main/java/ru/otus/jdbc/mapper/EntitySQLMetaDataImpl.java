@@ -3,16 +3,14 @@ package ru.otus.jdbc.mapper;
 import java.lang.reflect.Field;
 
 public class EntitySQLMetaDataImpl<T> implements EntitySQLMetaData {
-  EntityClassMetaData<T> entityClassMetaData;
-  String selectAllSql;
-  String insertSql;
-  String updateSql;
-  String selectByIdSql;
+  private final String selectAllSql;
+  private final String insertSql;
+  private final String updateSql;
+  private final String selectByIdSql;
 
   public EntitySQLMetaDataImpl(EntityClassMetaData<T> entityClassMetaData) {
-  this.entityClassMetaData = entityClassMetaData;
   this.selectAllSql = "SELECT * FROM %s;".formatted(entityClassMetaData.getName());
-  this.selectByIdSql = "SELECT * FROM %s WHERE id = ?;".formatted(entityClassMetaData.getName());
+  this.selectByIdSql = "SELECT * FROM %s WHERE %s = ?;".formatted(entityClassMetaData.getName(), entityClassMetaData.getIdField().getName());
   this.insertSql = buildInsert (entityClassMetaData);
   this.updateSql = buildUpdate (entityClassMetaData);
 
@@ -39,6 +37,7 @@ public class EntitySQLMetaDataImpl<T> implements EntitySQLMetaData {
     return updateSql;
   }
 
+
   private String buildInsert (EntityClassMetaData<T> entityClassMetaData) {
     StringBuilder insertSqlBuild = new StringBuilder();
     insertSqlBuild.append("INSERT INTO %s (".formatted(entityClassMetaData.getName()));
@@ -62,7 +61,7 @@ public class EntitySQLMetaDataImpl<T> implements EntitySQLMetaData {
       updateSqlBuild.append(" = ?, ");
     }
     updateSqlBuild.delete(updateSqlBuild.length() - 2, updateSqlBuild.length());
-    updateSqlBuild.append("WHERE id = ?;");
+    updateSqlBuild.append(" WHERE %s = ?;".formatted(entityClassMetaData.getIdField().getName()));
     return updateSqlBuild.toString();
   }
 }
