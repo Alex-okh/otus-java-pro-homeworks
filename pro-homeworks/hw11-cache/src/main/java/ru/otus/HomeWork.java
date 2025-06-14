@@ -3,7 +3,7 @@ package ru.otus;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.cachehw.HwListener;
+import ru.otus.cachehw.DBServiceCachedClient;
 import ru.otus.cachehw.HwListenerLogger;
 import ru.otus.core.repository.executor.DbExecutorImpl;
 import ru.otus.core.sessionmanager.TransactionRunnerJdbc;
@@ -11,7 +11,6 @@ import ru.otus.crm.datasource.DriverManagerDataSource;
 import ru.otus.crm.model.Client;
 import ru.otus.crm.service.DbServiceClientImpl;
 import ru.otus.jdbc.mapper.*;
-import ru.otus.cachehw.DBServiceCachedClient;
 
 import javax.sql.DataSource;
 
@@ -20,6 +19,8 @@ public class HomeWork {
     private static final String URL = "jdbc:postgresql://localhost:5430/demoDB";
     private static final String USER = "usr";
     private static final String PASSWORD = "pwd";
+
+    private static final int RECORDS_QUANTITY = 500; //4 DB objects created for each
 
     private static final Logger log = LoggerFactory.getLogger(HomeWork.class);
 
@@ -37,29 +38,60 @@ public class HomeWork {
 
         // Работа с клиентом без кэша
         var dbServiceClient = new DbServiceClientImpl(transactionRunner, dataTemplateClient);
-        dbServiceClient.saveClient(new Client("dbServiceFirst"));
 
-        var clientSecond = dbServiceClient.saveClient(new Client("dbServiceSecond"));
-        Client finalClientSecond1 = clientSecond;
-        var clientSecondSelected = dbServiceClient.getClient(clientSecond.getId())
-                                                  .orElseThrow(() -> new RuntimeException(
-                                                          "Client not found, id:" + finalClientSecond1.getId()));
-        log.info("clientSecondSelected:{}", clientSecondSelected);
+
+        for (int i = 0; i < RECORDS_QUANTITY; i++) {
+            dbServiceClient.saveClient(new Client("dbServiceFirst" + (i + 10000)));
+            var clientSecond = dbServiceClient.saveClient(new Client("dbServiceSecond" + (i + 10000)));
+            var clientSecondSelected = dbServiceClient.getClient(clientSecond.getId())
+                                                      .orElseThrow(() -> new RuntimeException(
+                                                              "Client not found, id:" + clientSecond.getId()));
+            log.info("clientSecondSelected:{}", clientSecondSelected);
+        }
+
 
         // Работа с клиентом с кэшированием
-        HwListenerLogger<Long,Client> listener = new HwListenerLogger<>();
+        HwListenerLogger<Long, Client> listener = new HwListenerLogger<>();
         var dbServiceCacheClient = new DBServiceCachedClient(transactionRunner, dataTemplateClient);
         dbServiceCacheClient.subscribe(listener);
-        dbServiceCacheClient.saveClient(new Client("dbServiceFirst"));
+        for (int i = 0; i < RECORDS_QUANTITY; i++) {
+            dbServiceCacheClient.saveClient(new Client("dbServiceFirst" + i));
 
-        clientSecond = dbServiceCacheClient.saveClient(new Client("dbServiceSecond"));
-        Client finalClientSecond = clientSecond;
-        clientSecondSelected = dbServiceCacheClient.getClient(clientSecond.getId())
-                                              .orElseThrow(() -> new RuntimeException(
-                                                      "Client not found, id:" + finalClientSecond.getId()));
-        log.info("clientSecondSelected:{}", clientSecondSelected);
+            var clientSecond = dbServiceCacheClient.saveClient(new Client("dbServiceSecond" + i));
+            var clientSecondSelected = dbServiceCacheClient.getClient(clientSecond.getId())
+                                                           .orElseThrow(() -> new RuntimeException(
+                                                                   "Client not found, id:" + clientSecond.getId()));
+            log.info("clientSecondSelected:{}", clientSecondSelected);
+        }
 
+        // Чтение с клиентом без кэша
+        long timer = System.currentTimeMillis();
+
+        for (int i = 0; i < RECORDS_QUANTITY; i++) {
+            int id = (int) (Math.random() * RECORDS_QUANTITY * 6);
+            var clientSecondSelected = dbServiceClient.getClient(id)
+                                                      .orElse(null);
+            log.info("clientSecondSelected:{}", clientSecondSelected);
+        }
+        long timeUncached = System.currentTimeMillis() - timer;
+
+        timer = System.currentTimeMillis();
+        log.info("Reading {} objects cached: ", RECORDS_QUANTITY);
+        for (int i = 0; i < RECORDS_QUANTITY; i++) {
+            int id = (int) (Math.random() * RECORDS_QUANTITY * 6);
+            var clientSecondSelected = dbServiceCacheClient.getClient(id)
+                                                           .orElse(null);
+            log.info("clientSecondSelected:{}", clientSecondSelected);
+
+        }
+        long timeCached = System.currentTimeMillis() - timer;
+
+        log.info("---------------STATISTICS-------------------------");
+        log.info("Not existing id probability: 33%");
+        log.info("Reading {} objects uncached: time taken {}ms", RECORDS_QUANTITY, timeUncached);
+        log.info("Reading {} objects cached: time taken {}ms", RECORDS_QUANTITY, timeCached);
     }
+
 
     private static void flywayMigrations(DataSource dataSource) {
         log.info("db migration started...");

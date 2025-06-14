@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 public class MyCache<K, V> implements HwCache<K, V> {
-    private Map<K, V> cache;
-    private List<HwListener<K, V>> listeners;
+    private final Map<K, V> cache;
+    private final List<HwListener<K, V>> listeners;
 
 
     MyCache() {

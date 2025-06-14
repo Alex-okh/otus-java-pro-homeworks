@@ -14,8 +14,7 @@ public class HWCacheDemo {
         HwCache<String, Integer> cache = new MyCache<>();
 
         // пример, когда Idea предлагает упростить код, при этом может появиться "спец"-эффект
-        @SuppressWarnings("java:S1604")
-        HwListener<String, Integer> listener = new HwListener<String, Integer>() {
+        @SuppressWarnings("java:S1604") HwListener<String, Integer> listener = new HwListener<String, Integer>() {
             @Override
             public void notify(String key, Integer value, String action) {
                 logger.info("key:{}, value:{}, action: {}", key, value, action);

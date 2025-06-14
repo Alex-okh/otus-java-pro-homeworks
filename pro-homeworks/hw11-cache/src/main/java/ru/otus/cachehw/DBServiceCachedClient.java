@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class DBServiceCachedClient implements DBServiceClient {
-    private static final Logger log = LoggerFactory.getLogger(DbServiceClientImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(DBServiceCachedClient.class);
 
     private final HwCache<Long, Client> cache;
     private final DBServiceClient simpleDBServiceClient;
@@ -55,11 +55,11 @@ public class DBServiceCachedClient implements DBServiceClient {
         return clients;
     }
 
-    public void subscribe(HwListener<Long,Client> listener) {
+    public void subscribe(HwListener<Long, Client> listener) {
         cache.addListener(listener);
     }
 
-    public void unSubscribe(HwListener<Long,Client> listener) {
+    public void unSubscribe(HwListener<Long, Client> listener) {
         cache.removeListener(listener);
     }
 }
