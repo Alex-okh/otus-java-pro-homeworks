@@ -4,7 +4,9 @@ import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.cachehw.DBServiceCachedClient;
+import ru.otus.cachehw.HwCache;
 import ru.otus.cachehw.HwListenerLogger;
+import ru.otus.cachehw.MyCache;
 import ru.otus.core.repository.executor.DbExecutorImpl;
 import ru.otus.core.sessionmanager.TransactionRunnerJdbc;
 import ru.otus.crm.datasource.DriverManagerDataSource;
@@ -51,8 +53,9 @@ public class HomeWork {
 
 
         // Работа с клиентом с кэшированием
-        HwListenerLogger<Long, Client> listener = new HwListenerLogger<>();
-        var dbServiceCacheClient = new DBServiceCachedClient(transactionRunner, dataTemplateClient);
+        HwListenerLogger<String, Client> listener = new HwListenerLogger<>();
+        HwCache<String, Client> clientCache = new MyCache<>();
+        var dbServiceCacheClient = new DBServiceCachedClient(transactionRunner, dataTemplateClient, clientCache);
         dbServiceCacheClient.subscribe(listener);
         for (int i = 0; i < RECORDS_QUANTITY; i++) {
             dbServiceCacheClient.saveClient(new Client("dbServiceFirst" + i));
@@ -75,6 +78,7 @@ public class HomeWork {
         }
         long timeUncached = System.currentTimeMillis() - timer;
 
+        // Чтение с кэшированным клиентом
         timer = System.currentTimeMillis();
         log.info("Reading {} objects cached: ", RECORDS_QUANTITY);
         for (int i = 0; i < RECORDS_QUANTITY; i++) {

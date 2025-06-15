@@ -14,52 +14,51 @@ import java.util.Optional;
 public class DBServiceCachedClient implements DBServiceClient {
     private static final Logger log = LoggerFactory.getLogger(DBServiceCachedClient.class);
 
-    private final HwCache<Long, Client> cache;
+    private final HwCache<String, Client> cache;
     private final DBServiceClient simpleDBServiceClient;
 
-    public DBServiceCachedClient(TransactionRunner transactionRunner, DataTemplate<Client> dataTemplate) {
+    public DBServiceCachedClient(TransactionRunner transactionRunner, DataTemplate<Client> dataTemplate, HwCache<String, Client> cache) {
         simpleDBServiceClient = new DbServiceClientImpl(transactionRunner, dataTemplate);
-        cache = new MyCache<>();
+        this.cache = cache;
     }
 
 
     @Override
     public Client saveClient(Client client) {
         Client savedClient = simpleDBServiceClient.saveClient(client);
-        cache.put(savedClient.getId(), savedClient);
+        cache.put(savedClient.getId()
+                             .toString(), savedClient);
         return savedClient;
     }
 
     @Override
     public Optional<Client> getClient(long id) {
-        Client cachedClient = cache.get(id);
+        Client cachedClient = cache.get(String.valueOf(id));
         if (cachedClient != null) {
             return Optional.of(cachedClient);
         } else {
             Optional<Client> loadedClient = simpleDBServiceClient.getClient(id);
-            if (loadedClient.isPresent()) {
-                cache.put(loadedClient.get()
-                                      .getId(), loadedClient.get());
-                return loadedClient;
-            }
+            loadedClient.ifPresent(c -> cache.put(String.valueOf(id), c));
+            return loadedClient;
         }
-        return Optional.empty();
+
     }
 
     @Override
     public List<Client> findAll() {
         List<Client> clients = simpleDBServiceClient.findAll();
         for (Client client : clients) {
-            cache.put(client.getId(), client);
+            cache.put(client.getId()
+                            .toString(), client);
         }
         return clients;
     }
 
-    public void subscribe(HwListener<Long, Client> listener) {
+    public void subscribe(HwListener<String, Client> listener) {
         cache.addListener(listener);
     }
 
-    public void unSubscribe(HwListener<Long, Client> listener) {
+    public void unSubscribe(HwListener<String, Client> listener) {
         cache.removeListener(listener);
     }
 }
