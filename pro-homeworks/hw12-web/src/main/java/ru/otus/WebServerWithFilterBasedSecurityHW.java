@@ -53,7 +53,6 @@ public class WebServerWithFilterBasedSecurityHW {
 
         ClientsWebServer clientsWebServer = new ClientsWebServerWithFilterBasedSecurity(WEB_SERVER_PORT, authService,
                                                                                         userDao, templateProcessor, dbServiceClient);
-
         clientsWebServer.start();
         clientsWebServer.join();
     }
