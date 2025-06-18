@@ -6,3 +6,7 @@ dependencies {
     testImplementation("org.assertj:assertj-core")
     testImplementation("org.mockito:mockito-junit-jupiter")
 }
+
+tasks.test {
+    useJUnitPlatform() // Важно для JUnit 5
+}
