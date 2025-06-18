@@ -29,6 +29,7 @@ public class ClientsServlet extends HttpServlet {
         Map<String, Object> modelParams = new HashMap<>();
         List<Client> clients = clientService.findAll();
         modelParams.put("clients", clients);
+
         resp.setContentType("text/html");
         resp.getWriter().println(templateProcessor.getPage(CLIENTS_PAGE_TEMPLATE, modelParams));
 
