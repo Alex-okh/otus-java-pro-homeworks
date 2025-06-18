@@ -37,7 +37,6 @@ public class WebServerWithFilterBasedSecurityHW {
 
     public static void main(String[] args) throws Exception {
         UserDao userDao = new InMemoryUserDao();
-
         TemplateProcessor templateProcessor = new TemplateProcessorImpl(TEMPLATES_DIR);
         UserAuthService authService = new UserAuthServiceImpl(userDao);
 
@@ -51,9 +50,6 @@ public class WebServerWithFilterBasedSecurityHW {
         var transactionManager = new TransactionManagerHibernate(sessionFactory);
         var clientTemplate = new DataTemplateHibernate<>(Client.class);
         var dbServiceClient = new DbServiceClientImpl(transactionManager, clientTemplate);
-
-
-
 
         ClientsWebServer clientsWebServer = new ClientsWebServerWithFilterBasedSecurity(WEB_SERVER_PORT, authService,
                                                                                         userDao, templateProcessor, dbServiceClient);

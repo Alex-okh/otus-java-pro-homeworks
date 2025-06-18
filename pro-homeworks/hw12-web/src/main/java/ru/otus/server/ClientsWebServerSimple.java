@@ -10,6 +10,7 @@ import ru.otus.crm.service.DBServiceClient;
 import ru.otus.dao.UserDao;
 import ru.otus.helpers.FileSystemHelper;
 import ru.otus.services.TemplateProcessor;
+import ru.otus.servlet.AddClientServlet;
 import ru.otus.servlet.ClientsServlet;
 
 
@@ -54,7 +55,7 @@ public class ClientsWebServerSimple implements ClientsWebServer {
 
         Handler.Sequence sequence = new Handler.Sequence();
         sequence.addHandler(resourceHandler);
-        sequence.addHandler(applySecurity(servletContextHandler, "/clients", "/api/user/*"));
+        sequence.addHandler(applySecurity(servletContextHandler, "/clients", "/newclient"));
 
         server.setHandler(sequence);
     }
@@ -76,6 +77,8 @@ public class ClientsWebServerSimple implements ClientsWebServer {
     private ServletContextHandler createServletContextHandler() {
         ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
         servletContextHandler.addServlet(new ServletHolder(new ClientsServlet(dbService, templateProcessor)), "/clients");
+        servletContextHandler.addServlet(new ServletHolder(new AddClientServlet(dbService, templateProcessor)), "/newclient");
+
         //servletContextHandler.addServlet(new ServletHolder(new UsersApiServlet(userDao, gson)), "/api/user/*");
         return servletContextHandler;
     }
