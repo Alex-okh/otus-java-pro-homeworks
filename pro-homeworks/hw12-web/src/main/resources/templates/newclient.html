@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавление нового клиента</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .card-header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .card-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .card-content {
+            padding: 35px 40px;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .user-icon {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            color: white;
+            font-size: 5rem;
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+            position: relative;
+        }
+
+        .user-icon::after {
+            content: '+';
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(255, 107, 107, 0.3);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+
+        @media (min-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .full-width {
+                grid-column: span 2;
+            }
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 1.05rem;
+            color: #2c3e50;
+            padding-left: 5px;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #3498db;
+            font-size: 1.1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 16px 20px 16px 50px;
+            border: 2px solid #e1e5eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            color: #34495e;
+            background: #f8fafc;
+        }
+
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            outline: none;
+            background: white;
+        }
+
+        .form-control::placeholder {
+            color: #a0aec0;
+        }
+
+        .phones-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        @media (min-width: 480px) {
+            .phones-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .phones-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .phone-input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .phone-input-group i {
+            color: #3498db;
+            font-size: 1.1rem;
+            min-width: 20px;
+        }
+
+        .phone-input {
+            flex: 1;
+            padding: 14px 15px;
+            border: 2px solid #e1e5eb;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        .phone-input:focus {
+            border-color: #3498db;
+            outline: none;
+            background: white;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 20px;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(30deg);
+            transition: all 0.6s;
+        }
+
+        .btn-submit:hover::after {
+            left: 120%;
+        }
+
+        .btn-submit i {
+            margin-right: 10px;
+        }
+
+        .back-link {
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+            margin-top: 20px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #2c3e50;
+            text-decoration: underline;
+        }
+
+        .card-footer {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            border-top: 1px solid #edf2f7;
+            background: #f9fbfd;
+        }
+
+        @media (max-width: 600px) {
+            .card-content {
+                padding: 25px;
+            }
+
+            .card-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .user-icon {
+                width: 110px;
+                height: 110px;
+                font-size: 4rem;
+            }
+
+            .user-icon::after {
+                width: 30px;
+                height: 30px;
+                font-size: 1.4rem;
+            }
+
+            .btn-submit {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1><i class="fas fa-user-plus"></i> Добавить нового клиента</h1>
+            <p>Заполните форму для добавления нового клиента в систему</p>
+        </div>
+
+        <div class="card-content">
+            <div class="logo-container">
+                <div class="user-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+
+            <form action="newclient" method="post">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="name">Имя клиента</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-user"></i>
+                            <input type="text"
+                                   id="name"
+                                   name="name"
+                                   value=""
+                                   class="form-control"
+                                   placeholder="Введите полное имя клиента"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="address">Адрес</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text"
+                                   id="address"
+                                   name="address"
+                                   value=""
+                                   class="form-control"
+                                   placeholder="Введите адрес клиента">
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Телефоны</label>
+                        <div class="phones-container">
+                            <div class="phone-input-group">
+                                <i class="fas fa-phone"></i>
+                                <input type="text"
+                                       name="phone1"
+                                       value=""
+                                       class="phone-input"
+                                       placeholder="Телефон 1">
+                            </div>
+
+                            <div class="phone-input-group">
+                                <i class="fas fa-phone"></i>
+                                <input type="text"
+                                       name="phone2"
+                                       value=""
+                                       class="phone-input"
+                                       placeholder="Телефон 2">
+                            </div>
+
+                            <div class="phone-input-group">
+                                <i class="fas fa-phone"></i>
+                                <input type="text"
+                                       name="phone3"
+                                       value=""
+                                       class="phone-input"
+                                       placeholder="Телефон 3">
+                            </div>
+
+                            <div class="phone-input-group">
+                                <i class="fas fa-phone"></i>
+                                <input type="text"
+                                       name="phone4"
+                                       value=""
+                                       class="phone-input"
+                                       placeholder="Телефон 4">
+                            </div>
+
+                            <div class="phone-input-group">
+                                <i class="fas fa-phone"></i>
+                                <input type="text"
+                                       name="phone5"
+                                       value=""
+                                       class="phone-input"
+                                       placeholder="Телефон 5">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-save"></i> Сохранить клиента
+                </button>
+
+                <a href="/clients" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Вернуться к списку клиентов
+                </a>
+            </form>
+        </div>
+
+        <div class="card-footer">
+            <p>© 2025 Охрименко Алексей.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
