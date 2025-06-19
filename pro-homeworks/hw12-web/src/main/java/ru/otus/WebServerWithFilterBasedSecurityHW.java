@@ -53,7 +53,7 @@ public class WebServerWithFilterBasedSecurityHW {
         var dbServiceClient = new DbServiceClientImpl(transactionManager, clientTemplate);
 
         ClientsWebServer clientsWebServer = new ClientsWebServerWithFilterBasedSecurity(WEB_SERVER_PORT, authService,
-                                                                                        userDao, templateProcessor,
+                                                                                        templateProcessor,
                                                                                         dbServiceClient);
         clientsWebServer.start();
         clientsWebServer.join();

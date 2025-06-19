@@ -6,7 +6,6 @@ import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import ru.otus.crm.service.DBServiceClient;
-import ru.otus.dao.UserDao;
 import ru.otus.helpers.FileSystemHelper;
 import ru.otus.services.TemplateProcessor;
 import ru.otus.servlet.AddClientServlet;
@@ -17,12 +16,10 @@ public class ClientsWebServerSimple implements ClientsWebServer {
     private static final String START_PAGE_NAME = "index.html";
     private static final String COMMON_RESOURCES_DIR = "static";
     protected final TemplateProcessor templateProcessor;
-    private final UserDao userDao;
     private final Server server;
     private final DBServiceClient dbService;
 
-    public ClientsWebServerSimple(int port, UserDao userDao, TemplateProcessor templateProcessor, DBServiceClient dbService) {
-        this.userDao = userDao;
+    public ClientsWebServerSimple(int port, TemplateProcessor templateProcessor, DBServiceClient dbService) {
         this.templateProcessor = templateProcessor;
         this.dbService = dbService;
         server = new Server(port);
