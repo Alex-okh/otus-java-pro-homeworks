@@ -1,6 +1,5 @@
 package ru.otus.server;
 
-import com.google.gson.Gson;
 import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.eclipse.jetty.server.Handler;
@@ -17,9 +16,8 @@ import ru.otus.servlet.ClientsServlet;
 public class ClientsWebServerSimple implements ClientsWebServer {
     private static final String START_PAGE_NAME = "index.html";
     private static final String COMMON_RESOURCES_DIR = "static";
-
-    private final UserDao userDao;
     protected final TemplateProcessor templateProcessor;
+    private final UserDao userDao;
     private final Server server;
     private final DBServiceClient dbService;
 
@@ -32,7 +30,8 @@ public class ClientsWebServerSimple implements ClientsWebServer {
 
     @Override
     public void start() throws Exception {
-        if (server.getHandlers().isEmpty()) {
+        if (server.getHandlers()
+                  .isEmpty()) {
             initContext();
         }
         server.start();
@@ -76,10 +75,10 @@ public class ClientsWebServerSimple implements ClientsWebServer {
 
     private ServletContextHandler createServletContextHandler() {
         ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        servletContextHandler.addServlet(new ServletHolder(new ClientsServlet(dbService, templateProcessor)), "/clients");
-        servletContextHandler.addServlet(new ServletHolder(new AddClientServlet(dbService, templateProcessor)), "/newclient");
-
-        //servletContextHandler.addServlet(new ServletHolder(new UsersApiServlet(userDao, gson)), "/api/user/*");
+        servletContextHandler.addServlet(new ServletHolder(new ClientsServlet(dbService, templateProcessor)),
+                                         "/clients");
+        servletContextHandler.addServlet(new ServletHolder(new AddClientServlet(dbService, templateProcessor)),
+                                         "/newclient");
         return servletContextHandler;
     }
 }

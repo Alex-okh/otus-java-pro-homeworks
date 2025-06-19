@@ -4,7 +4,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import ru.otus.crm.model.Client;
 import ru.otus.crm.service.DBServiceClient;
 import ru.otus.services.TemplateProcessor;
@@ -25,13 +24,14 @@ public class ClientsServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Map<String, Object> modelParams = new HashMap<>();
         List<Client> clients = clientService.findAll();
         modelParams.put("clients", clients);
 
         resp.setContentType("text/html");
-        resp.getWriter().println(templateProcessor.getPage(CLIENTS_PAGE_TEMPLATE, modelParams));
+        resp.getWriter()
+            .println(templateProcessor.getPage(CLIENTS_PAGE_TEMPLATE, modelParams));
 
     }
 }

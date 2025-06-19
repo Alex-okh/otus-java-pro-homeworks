@@ -33,11 +33,18 @@ public class InMemoryUserDao implements UserDao {
     @Override
     public Optional<User> findRandomUser() {
 
-        return users.values().stream().skip(random.nextInt(users.size() - 1)).findFirst();
+        return users.values()
+                    .stream()
+                    .skip(random.nextInt(users.size() - 1))
+                    .findFirst();
     }
 
     @Override
     public Optional<User> findByLogin(String login) {
-        return users.values().stream().filter(v -> v.getLogin().equals(login)).findFirst();
+        return users.values()
+                    .stream()
+                    .filter(v -> v.getLogin()
+                                  .equals(login))
+                    .findFirst();
     }
 }

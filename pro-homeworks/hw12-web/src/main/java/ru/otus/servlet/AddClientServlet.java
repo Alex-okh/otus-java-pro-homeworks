@@ -4,20 +4,16 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import ru.otus.crm.model.Address;
 import ru.otus.crm.model.Client;
 import ru.otus.crm.model.Phone;
 import ru.otus.crm.service.DBServiceClient;
 import ru.otus.services.TemplateProcessor;
-import ru.otus.services.UserAuthService;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 public class AddClientServlet extends HttpServlet {
 
@@ -35,10 +31,10 @@ public class AddClientServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
-        response.getWriter().println(templateProcessor.getPage(ADD_PAGE_TEMPLATE, Collections.emptyMap()));
+        response.getWriter()
+                .println(templateProcessor.getPage(ADD_PAGE_TEMPLATE, Collections.emptyMap()));
     }
 
     @Override
@@ -48,7 +44,7 @@ public class AddClientServlet extends HttpServlet {
         String address = request.getParameter(PARAM_ADDRESS);
         List<Phone> phones = new ArrayList<>();
         for (int i = 1; i <= 5; i++) {
-            String number = request.getParameter( PARAM_PHONE+i);
+            String number = request.getParameter(PARAM_PHONE + i);
             if (!number.isBlank()) {
                 Phone phone = new Phone(null, request.getParameter(PARAM_PHONE + i));
                 phones.add(phone);

@@ -1,6 +1,5 @@
 package ru.otus.server;
 
-import com.google.gson.Gson;
 import org.eclipse.jetty.ee10.servlet.FilterHolder;
 import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jetty.ee10.servlet.ServletHolder;
@@ -17,8 +16,7 @@ import java.util.Arrays;
 public class ClientsWebServerWithFilterBasedSecurity extends ClientsWebServerSimple {
     private final UserAuthService authService;
 
-    public ClientsWebServerWithFilterBasedSecurity(
-            int port, UserAuthService authService, UserDao userDao, TemplateProcessor templateProcessor, DBServiceClient dbServiceClient) {
+    public ClientsWebServerWithFilterBasedSecurity(int port, UserAuthService authService, UserDao userDao, TemplateProcessor templateProcessor, DBServiceClient dbServiceClient) {
         super(port, userDao, templateProcessor, dbServiceClient);
         this.authService = authService;
     }
@@ -28,8 +26,8 @@ public class ClientsWebServerWithFilterBasedSecurity extends ClientsWebServerSim
         servletContextHandler.addServlet(new ServletHolder(new LoginServlet(templateProcessor, authService)), "/login");
         AuthorizationFilter authorizationFilter = new AuthorizationFilter();
         Arrays.stream(paths)
-                .forEachOrdered(
-                        path -> servletContextHandler.addFilter(new FilterHolder(authorizationFilter), path, null));
+              .forEachOrdered(
+                      path -> servletContextHandler.addFilter(new FilterHolder(authorizationFilter), path, null));
         return servletContextHandler;
     }
 }

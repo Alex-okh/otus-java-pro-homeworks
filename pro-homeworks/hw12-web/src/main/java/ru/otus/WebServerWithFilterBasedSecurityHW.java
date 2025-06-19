@@ -1,5 +1,6 @@
 package ru.otus;
 
+import org.hibernate.cfg.Configuration;
 import ru.otus.core.repository.DataTemplateHibernate;
 import ru.otus.core.repository.HibernateUtils;
 import ru.otus.core.sessionmanager.TransactionManagerHibernate;
@@ -16,7 +17,6 @@ import ru.otus.services.TemplateProcessor;
 import ru.otus.services.TemplateProcessorImpl;
 import ru.otus.services.UserAuthService;
 import ru.otus.services.UserAuthServiceImpl;
-import org.hibernate.cfg.Configuration;
 
 /*
     Полезные для демо ссылки
@@ -46,13 +46,15 @@ public class WebServerWithFilterBasedSecurityHW {
         var dbUserName = configuration.getProperty("hibernate.connection.username");
         var dbPassword = configuration.getProperty("hibernate.connection.password");
         new MigrationsExecutorFlyway(dbUrl, dbUserName, dbPassword).executeMigrations();
-        var sessionFactory = HibernateUtils.buildSessionFactory(configuration, Client.class, Address.class, Phone.class);
+        var sessionFactory = HibernateUtils.buildSessionFactory(configuration, Client.class, Address.class,
+                                                                Phone.class);
         var transactionManager = new TransactionManagerHibernate(sessionFactory);
         var clientTemplate = new DataTemplateHibernate<>(Client.class);
         var dbServiceClient = new DbServiceClientImpl(transactionManager, clientTemplate);
 
         ClientsWebServer clientsWebServer = new ClientsWebServerWithFilterBasedSecurity(WEB_SERVER_PORT, authService,
-                                                                                        userDao, templateProcessor, dbServiceClient);
+                                                                                        userDao, templateProcessor,
+                                                                                        dbServiceClient);
         clientsWebServer.start();
         clientsWebServer.join();
     }
