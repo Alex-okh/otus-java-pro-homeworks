@@ -2,7 +2,9 @@ package otus.pro.hw.hw14springboot.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import otus.pro.hw.hw14springboot.model.Address;
 import otus.pro.hw.hw14springboot.model.Client;
@@ -37,7 +39,7 @@ public class ClientController {
         return "clients";
     }
 
-    @GetMapping("/newclient")
+    @GetMapping("/clients/create")
     public String newClient(Model model) {
         return "newclient";
     }
@@ -52,6 +54,12 @@ public class ClientController {
 
         Client newclient = new Client(null, name, new Address(null, address.isBlank() ? null : address), phones, true);
         clientService.addClient(newclient);
+        return "redirect:/clients";
+    }
+
+    @DeleteMapping("/clients/{id}")
+    public String deleteClient(@PathVariable Long id) {
+        clientService.deleteClient(id);
         return "redirect:/clients";
     }
 }
