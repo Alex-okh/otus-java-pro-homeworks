@@ -5,9 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Управление клиентами</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body class="clients-page">
+<style>
+    /* Стили для кнопок-действий */
+    .actions {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .inline-form {
+        display: inline-block;
+        margin: 0;
+    }
+
+    .icon-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        font-size: 16px;
+        color: #555;
+        transition: color 0.3s;
+    }
+
+    .icon-btn:hover {
+        color: #007bff;
+    }
+
+    .icon-btn[title="Удалить"]:hover {
+        color: #dc3545;
+    }
+
+</style>
 <div class="background-container">
     <div class="shape shape-1"></div>
     <div class="shape shape-2"></div>
@@ -28,7 +60,7 @@
             <div class="card-header">
                 <div class="header-content">
                     <h2><i class="fas fa-list"></i> Список клиентов</h2>
-                    <a href="/clientd/add" class="btn client-btn">
+                    <a href="/clients/add" class="btn client-btn">
                         <i class="fas fa-plus-circle"></i> Добавить клиента
                     </a>
                 </div>
@@ -53,6 +85,7 @@
                             <th>Клиент</th>
                             <th>Адрес</th>
                             <th>Телефоны</th>
+                            <th>Действия</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -83,6 +116,22 @@
                                 <th:block th:unless="${client.phones != null and not client.phones.empty}">
                                     <span class="no-data">Телефоны отсутствуют</span>
                                 </th:block>
+                            </td>
+                            <td class="actions">
+                                <!-- Кнопка редактирования -->
+                                <form th:action="@{/clients/{id}(id=${client.id})}" method="post" class="inline-form">
+                                    <button type="submit" class="icon-btn" title="Редактировать">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </form>
+
+                                <!-- Кнопка удаления -->
+                                <form th:action="@{/clients/{id}(id=${client.id})}" method="post" class="inline-form">
+                                    <input type="hidden" name="_method" value="delete">
+                                    <button type="submit" class="icon-btn" title="Удалить">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                         </tbody>

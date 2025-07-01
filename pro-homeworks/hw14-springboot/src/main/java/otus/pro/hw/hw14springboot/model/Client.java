@@ -9,7 +9,6 @@ import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.util.List;
 import java.util.Set;
 
 @Table(name = "client")

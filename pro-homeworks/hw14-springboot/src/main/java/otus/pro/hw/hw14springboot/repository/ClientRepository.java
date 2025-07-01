@@ -22,8 +22,6 @@ public interface ClientRepository extends ListCrudRepository<Client, Long> {
             		left outer join phone p on c.id = p.client_id
             order by client_id
 
-            """,
-    resultSetExtractorClass = ClientResultSetExtractorClass.class)
-
+            """, resultSetExtractorClass = ClientResultSetExtractorClass.class)
     List<Client> findAll();
 }

@@ -11,6 +11,7 @@ import otus.pro.hw.hw14springboot.model.Client;
 import otus.pro.hw.hw14springboot.model.Phone;
 import otus.pro.hw.hw14springboot.service.ClientService;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -39,21 +40,36 @@ public class ClientController {
         return "clients";
     }
 
-    @GetMapping("/clients/create")
-    public String newClient(Model model) {
+    @GetMapping("/clients/add")
+    public String newClient() {
         return "newclient";
     }
 
     @PostMapping("/newclient")
-    public String addClient(String name, String address, String phone1, String phone2, String phone3, String phone4,
-                            String phone5) {
+    public String addClient(Long id, String name, String address, String phone1, String phone2, String phone3,
+                            String phone4, String phone5) {
         Set<Phone> phones = Stream.of(phone1, phone2, phone3, phone4, phone5)
                                   .filter(not(String::isBlank))
                                   .map(s -> new Phone(null, s))
                                   .collect(Collectors.toSet());
-
-        Client newclient = new Client(null, name, new Address(null, address.isBlank() ? null : address), phones, true);
+        Client newclient;
+        if (id == null) {
+            newclient = new Client(null, name, new Address(null, address.isBlank() ? null : address), phones, true);
+        } else {
+            newclient = new Client(id, name, new Address(null, address), phones, false);
+        }
         clientService.addClient(newclient);
+        return "redirect:/clients";
+    }
+
+    @PostMapping("/clients/{id}")
+    public String editClient(Model model, @PathVariable Long id) {
+        Optional<Client> client = clientService.findById(id);
+        if (client.isPresent()) {
+            Client foundClient = client.get();
+            model.addAttribute("client", foundClient);
+            return "newclient";
+        }
         return "redirect:/clients";
     }
 

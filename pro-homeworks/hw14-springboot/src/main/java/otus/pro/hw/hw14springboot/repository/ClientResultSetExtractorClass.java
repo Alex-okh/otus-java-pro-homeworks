@@ -20,7 +20,7 @@ public class ClientResultSetExtractorClass implements ResultSetExtractor<List<Cl
         Long previousId = null;
         while (rs.next()) {
             var clientId = rs.getLong(1);
-            Client client = null;
+            Client client;
             if (previousId == null || previousId != clientId) {
                 client = new Client(clientId, rs.getString(2), new Address(rs.getLong(3), rs.getString(4)),
                                     new HashSet<>(), false);
@@ -31,7 +31,8 @@ public class ClientResultSetExtractorClass implements ResultSetExtractor<List<Cl
             }
             var phoneNumber = rs.getString(6);
             if (client != null && phoneNumber != null) {
-                client.getPhones().add(new Phone(rs.getLong(5), phoneNumber));
+                client.getPhones()
+                      .add(new Phone(rs.getLong(5), phoneNumber));
             }
         }
         return clientList;

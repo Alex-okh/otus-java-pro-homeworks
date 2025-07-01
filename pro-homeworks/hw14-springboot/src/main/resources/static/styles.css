@@ -129,10 +129,9 @@ body {
     left: -50%;
     width: 200%;
     height: 200%;
-    background: 
-        radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 20%),
-        linear-gradient(45deg, transparent 49%, rgba(255,255,255,0.05) 49%, transparent 51%),
-        linear-gradient(-45deg, transparent 49%, rgba(255,255,255,0.05) 49%, transparent 51%);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 20%),
+    linear-gradient(45deg, transparent 49%, rgba(255, 255, 255, 0.05) 49%, transparent 51%),
+    linear-gradient(-45deg, transparent 49%, rgba(255, 255, 255, 0.05) 49%, transparent 51%);
     background-size: 80px 80px;
     transform: rotate(15deg);
     z-index: -1;
@@ -142,7 +141,7 @@ body {
     font-size: 2.8rem;
     font-weight: 700;
     margin-bottom: 10px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .header p {
@@ -322,23 +321,23 @@ body {
     .header {
         padding: 30px 20px;
     }
-    
+
     .header h1 {
         font-size: 2.2rem;
     }
-    
+
     .content {
         padding: 30px 20px;
     }
-    
+
     .welcome-text h2 {
         font-size: 1.8rem;
     }
-    
+
     .link-card {
         min-width: 100%;
     }
-    
+
     .shape {
         display: none;
     }
@@ -430,7 +429,7 @@ body {
 .clients-page tbody tr:hover {
     background-color: rgba(76, 175, 80, 0.05);
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .clients-page td {
@@ -533,6 +532,7 @@ body {
         min-width: 100%;
     }
 }
+
 /* СТИЛИ ДЛЯ СТРАНИЦЫ ДОБАВЛЕНИЯ КЛИЕНТА */
 .new-client-page .container {
     max-width: 800px;
@@ -540,8 +540,14 @@ body {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .new-client-page .card {
@@ -566,7 +572,7 @@ body {
     justify-content: center;
     align-items: center;
     gap: 15px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .new-client-page .card-header p {
