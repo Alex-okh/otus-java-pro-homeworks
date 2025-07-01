@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление клиентами</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="clients-page">
+<div class="background-container">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+    <div class="shape shape-4"></div>
+    <div class="shape shape-5"></div>
+    <div class="shape shape-6"></div>
+</div>
+
+<div class="container">
+    <header class="header">
+        <h1><i class="fas fa-users"></i> Управление клиентами</h1>
+        <p class="subtitle">Полный список клиентов с контактной информацией</p>
+    </header>
+
+    <main class="content">
+        <div class="client-card">
+            <div class="card-header">
+                <div class="header-content">
+                    <h2><i class="fas fa-list"></i> Список клиентов</h2>
+                    <a href="/newclient" class="btn client-btn">
+                        <i class="fas fa-plus-circle"></i> Добавить клиента
+                    </a>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value" th:text="${totalClients}">0</div>
+                        <div class="stat-label">Всего клиентов</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" th:text="${clientsWithPhones}">0</div>
+                        <div class="stat-label">С телефонами</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <th:block th:if="${clients != null and not clients.empty}">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Клиент</th>
+                            <th>Адрес</th>
+                            <th>Телефоны</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="client : ${clients}">
+                            <td>
+                                <div class="client-name" th:text="${client.name}"></div>
+                                <div class="client-id">ID: <span th:text="${client.id}"></span></div>
+                            </td>
+                            <td>
+                                <div class="address">
+                                    <i class="fas fa-home icon"></i>
+                                    <span th:if="${client.address != null and client.address.street != null}"
+                                          th:text="${client.address.street}"></span>
+                                    <span th:unless="${client.address != null and client.address.street != null}"
+                                          class="no-data">Адрес не указан</span>
+                                </div>
+                            </td>
+                            <td>
+                                <th:block th:if="${client.phones != null and not client.phones.empty}">
+                                    <div class="phones">
+                                        <th:block th:each="phone : ${client.phones}">
+                                            <div class="phone-badge">
+                                                <i class="fas fa-phone"></i> <span th:text="${phone.number}"></span>
+                                            </div>
+                                        </th:block>
+                                    </div>
+                                </th:block>
+                                <th:block th:unless="${client.phones != null and not client.phones.empty}">
+                                    <span class="no-data">Телефоны отсутствуют</span>
+                                </th:block>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </th:block>
+
+                <th:block th:if="${clients == null or clients.empty}">
+                    <div class="empty-state">
+                        <i class="fas fa-user-slash empty-state-icon"></i>
+                        <h2 class="empty-state-title">Клиенты не найдены</h2>
+                        <p class="empty-state-text">
+                            В базе данных нет зарегистрированных клиентов. Добавьте первого клиента, чтобы начать работу.
+                        </p>
+                        <a href="/newclient" class="btn client-btn">
+                            <i class="fas fa-plus-circle"></i> Добавить клиента
+                        </a>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2025 Охрименко Алексей.</p>
+    </footer>
+</div>
+</body>
+</html>

@@ -343,3 +343,485 @@ body {
         display: none;
     }
 }
+
+/* ДОБАВЛЕННЫЕ СТИЛИ ДЛЯ СТРАНИЦЫ КЛИЕНТОВ */
+.clients-page .content {
+    padding: 30px;
+    text-align: left;
+}
+
+.clients-page .client-card {
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    margin-bottom: 30px;
+    border-top: 5px solid var(--primary-green);
+}
+
+.clients-page .card-header {
+    background: linear-gradient(135deg, var(--primary-orange), var(--accent-orange));
+    color: var(--white);
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.clients-page .header-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.clients-page .stats {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.clients-page .stat-item {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px 20px;
+    border-radius: 10px;
+    min-width: 120px;
+}
+
+.clients-page .stat-value {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.clients-page .stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.clients-page .table-container {
+    overflow-x: auto;
+    padding: 20px;
+}
+
+.clients-page table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: 800px;
+}
+
+.clients-page thead th {
+    background-color: var(--light-gray);
+    color: var(--accent-orange);
+    font-weight: 600;
+    padding: 18px 15px;
+    text-align: left;
+    border-bottom: 2px solid var(--light-orange);
+}
+
+.clients-page tbody tr {
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.clients-page tbody tr:hover {
+    background-color: rgba(76, 175, 80, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.clients-page td {
+    padding: 16px 15px;
+    color: var(--text-dark);
+}
+
+.clients-page .client-name {
+    font-weight: 600;
+    color: var(--accent-orange);
+    font-size: 1.1rem;
+}
+
+.clients-page .client-id {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.clients-page .address {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.clients-page .phones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.clients-page .phone-badge {
+    background: var(--light-green);
+    color: var(--accent-green);
+    border-radius: 50px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.clients-page .no-data {
+    color: var(--text-light);
+    font-style: italic;
+}
+
+.clients-page .icon {
+    color: var(--primary-orange);
+    font-size: 1.1rem;
+    min-width: 20px;
+}
+
+.clients-page .empty-state {
+    text-align: center;
+    padding: 40px;
+}
+
+.clients-page .empty-state-icon {
+    font-size: 5rem;
+    color: var(--light-green);
+    margin-bottom: 20px;
+}
+
+.clients-page .empty-state-title {
+    color: var(--accent-orange);
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.clients-page .empty-state-text {
+    color: var(--text-light);
+    max-width: 500px;
+    margin: 0 auto 25px;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .clients-page .card-header {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .clients-page .header-content {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .clients-page .stats {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .clients-page .stat-item {
+        width: 100%;
+    }
+
+    .clients-page table {
+        min-width: 100%;
+    }
+}
+/* СТИЛИ ДЛЯ СТРАНИЦЫ ДОБАВЛЕНИЯ КЛИЕНТА */
+.new-client-page .container {
+    max-width: 800px;
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.new-client-page .card {
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border-top: 5px solid var(--primary-green);
+}
+
+.new-client-page .card-header {
+    background: linear-gradient(135deg, var(--primary-orange), var(--accent-orange));
+    color: var(--white);
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.new-client-page .card-header h1 {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.new-client-page .card-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.new-client-page .card-content {
+    padding: 35px 40px;
+}
+
+.new-client-page .logo-container {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.new-client-page .user-icon {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-orange), var(--accent-orange));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    color: var(--white);
+    font-size: 5rem;
+    box-shadow: 0 8px 25px rgba(255, 154, 61, 0.3);
+    position: relative;
+}
+
+.new-client-page .user-icon::after {
+    content: '+';
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    background: var(--primary-green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    box-shadow: 0 3px 10px rgba(76, 175, 80, 0.3);
+}
+
+.new-client-page .form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+}
+
+@media (min-width: 768px) {
+    .new-client-page .form-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .new-client-page .full-width {
+        grid-column: span 2;
+    }
+}
+
+.new-client-page .form-group {
+    position: relative;
+}
+
+.new-client-page .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 1.05rem;
+    color: var(--text-dark);
+    padding-left: 5px;
+}
+
+.new-client-page .input-with-icon {
+    position: relative;
+}
+
+.new-client-page .input-with-icon i {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary-orange);
+    font-size: 1.1rem;
+}
+
+.new-client-page .form-control {
+    width: 100%;
+    padding: 16px 20px 16px 50px;
+    border: 2px solid var(--light-gray);
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    color: var(--text-dark);
+    background: #f8fafc;
+}
+
+.new-client-page .form-control:focus {
+    border-color: var(--primary-orange);
+    box-shadow: 0 0 0 3px rgba(255, 154, 61, 0.2);
+    outline: none;
+    background: var(--white);
+}
+
+.new-client-page .form-control::placeholder {
+    color: var(--text-light);
+}
+
+.new-client-page .phones-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+@media (min-width: 480px) {
+    .new-client-page .phones-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 768px) {
+    .new-client-page .phones-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.new-client-page .phone-input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.new-client-page .phone-input-group i {
+    color: var(--primary-orange);
+    font-size: 1.1rem;
+    min-width: 20px;
+}
+
+.new-client-page .phone-input {
+    flex: 1;
+    padding: 14px 15px;
+    border: 2px solid var(--light-gray);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background: #f8fafc;
+}
+
+.new-client-page .phone-input:focus {
+    border-color: var(--primary-orange);
+    outline: none;
+    background: var(--white);
+}
+
+.new-client-page .btn-submit {
+    display: block;
+    width: 100%;
+    background: linear-gradient(to right, var(--primary-green), var(--accent-green));
+    color: var(--white);
+    border: none;
+    padding: 18px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.new-client-page .btn-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.new-client-page .btn-submit:active {
+    transform: translateY(0);
+}
+
+.new-client-page .btn-submit::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 20px;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(30deg);
+    transition: all 0.6s;
+}
+
+.new-client-page .btn-submit:hover::after {
+    left: 120%;
+}
+
+.new-client-page .btn-submit i {
+    margin-right: 10px;
+}
+
+.new-client-page .back-link {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+    color: var(--primary-orange);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.new-client-page .back-link:hover {
+    color: var(--accent-orange);
+    text-decoration: underline;
+}
+
+.new-client-page .card-footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    border-top: 1px solid var(--light-gray);
+    background: #f9fbfd;
+}
+
+@media (max-width: 600px) {
+    .new-client-page .card-content {
+        padding: 25px;
+    }
+
+    .new-client-page .card-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .new-client-page .user-icon {
+        width: 110px;
+        height: 110px;
+        font-size: 4rem;
+    }
+
+    .new-client-page .user-icon::after {
+        width: 30px;
+        height: 30px;
+        font-size: 1.4rem;
+    }
+
+    .new-client-page .btn-submit {
+        padding: 16px;
+    }
+}
