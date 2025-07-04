@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавление нового клиента</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body class="new-client-page">
+<div class="background-container">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+    <div class="shape shape-4"></div>
+    <div class="shape shape-5"></div>
+    <div class="shape shape-6"></div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1><i class="fas fa-user-plus"></i> Добавить нового клиента</h1>
+            <p>Заполните форму для добавления нового клиента в систему</p>
+        </div>
+
+        <div class="card-content">
+            <div class="logo-container">
+                <div class="user-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+
+            <form action="/newclient" method="post">
+                <!-- Скрытое поле для ID -->
+                <input type="hidden"
+                       id="id"
+                       name="id"
+                       th:value="${client != null ? client.id : ''}">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="name">Имя клиента</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-user"></i>
+                            <input type="text"
+                                   id="name"
+                                   name="name"
+                                   th:value="${client != null ? client.name : ''}"
+                                   class="form-control"
+                                   placeholder="Введите полное имя клиента"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="address">Адрес</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text"
+                                   id="address"
+                                   name="address"
+                                   th:value="${client != null && client.address != null ? client.address.street : ''}"
+                                   class="form-control"
+                                   placeholder="Введите адрес клиента">
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Телефоны</label>
+                        <div class="phones-container">
+                            <div th:each="i : ${#numbers.sequence(1, 5)}">
+                                <div class="phone-input-group">
+                                    <i class="fas fa-phone"></i>
+                                    <input type="text"
+                                           th:name="'phone' + ${i}"
+                                           th:value="${client != null && client.phones != null && client.phones.size() >= i ? client.phones[i-1].number : ''}"
+                                           class="phone-input"
+                                           th:placeholder="'Телефон ' + ${i}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-save"></i> Сохранить клиента
+                </button>
+
+                <a href="/clients" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Вернуться к списку клиентов
+                </a>
+            </form>
+        </div>
+
+        <div class="card-footer">
+            <p>© 2025 Охрименко Алексей.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
