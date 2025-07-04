@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Table(name = "client")
 @Getter
-public class Client implements Persistable<Long> {
+public class Client {
     private final String name;
 
     @Id
@@ -46,8 +46,5 @@ public class Client implements Persistable<Long> {
         this.isNew = false;
     }
 
-    @Override
-    public boolean isNew() {
-        return isNew;
-    }
+
 }
