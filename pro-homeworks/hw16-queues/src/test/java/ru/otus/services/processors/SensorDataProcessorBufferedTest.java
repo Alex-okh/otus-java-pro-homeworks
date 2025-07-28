@@ -1,18 +1,6 @@
 package ru.otus.services.processors;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.DoubleStream;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,6 +12,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.api.model.SensorData;
 import ru.otus.lib.SensorDataBufferedWriter;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.DoubleStream;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class SensorDataProcessorBufferedTest {
@@ -170,10 +168,10 @@ class SensorDataProcessorBufferedTest {
     private List<SensorData> getSensorDataForTest(int limit) {
         var startTime = LocalDateTime.now();
         return DoubleStream.iterate(0.0, d -> d + 1)
-                .limit(limit)
-                .boxed()
-                .map(d -> new SensorData(startTime.plusSeconds(d.longValue()), ANY_ROOM, d))
-                .toList();
+                           .limit(limit)
+                           .boxed()
+                           .map(d -> new SensorData(startTime.plusSeconds(d.longValue()), ANY_ROOM, d))
+                           .toList();
     }
 
     private void awaitLatch(CountDownLatch latch) {
@@ -183,7 +181,8 @@ class SensorDataProcessorBufferedTest {
                 log.warn("timeout");
             }
         } catch (InterruptedException ignored) {
-            Thread.currentThread().interrupt();
+            Thread.currentThread()
+                  .interrupt();
         }
     }
 
@@ -191,7 +190,8 @@ class SensorDataProcessorBufferedTest {
         try {
             thread.join(10);
         } catch (InterruptedException ignored) {
-            Thread.currentThread().interrupt();
+            Thread.currentThread()
+                  .interrupt();
         }
     }
 }
